@@ -36,6 +36,8 @@ The "Engineer" side of the role: Serving models efficiently.
     *The Speed.* Quantization (AWQ/GPTQ), Continuous Batching, PagedAttention (vLLM), and Speculative Decoding.
 *   [**GPU Architecture Guide**](inference-ops/gpu-architecture.md)  
     *The Hardware.* H100 vs A100. Memory Bandwidth vs Compute Bound. Multi-GPU strategies (Pipeline vs Tensor Parallelism).
+*   [**Scaling Laws (Chinchilla)**](algorithms/scaling-laws.md)  
+    *The Math.* Why Llama-3 8B is "over-trained" and how to calculate optimal model size.
 
 ---
 
@@ -58,6 +60,8 @@ Blueprints for scaling AI applications.
 *   [**Vector Indexing Algorithms**](rag-pipelines/vector-indexing-deep-dive.md)
     *   *The Engine.* HNSW (Speed) vs IVF (Memory) vs Quantization (PQ/SQ).
     *   *Decision Matrix.* When to use which for 10M vs 100M vectors.
+*   [**Vector Indexing Code Examples**](rag-pipelines/vector-indexing-code-examples.md)
+    *   *The Implementation.* Faiss (HNSW/IVF), Qdrant, and LanceDB snippets.
 *   [**Tool Calling Optimization**](rag-pipelines/tool-calling-optimization.md)
 
 ---
