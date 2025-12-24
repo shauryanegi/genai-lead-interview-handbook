@@ -1,6 +1,6 @@
 # GenAI Lead Interview Handbook V2 (The "One-Stop Shop")
 
-A definitive knowledge base for Machine Learning Lead and Generative AI Architect roles. This handbook covers the full stack: from **Training** (LoRA/DPO) to **Architecture** (Memory/Agents) to **Inference Engineering** (vLLM/Quantization).
+A definitive knowledge base for Machine Learning Lead and Generative AI Architect roles. This handbook covers the full stack: from **Training** (LoRA/DPO) to **Architecture** (Memory/Agents) to **Production Ops** (Security/Observability).
 
 ---
 
@@ -15,6 +15,8 @@ Insights into the building blocks of modern GenAI systems.
     *The Brain.* ReAct vs Plan-and-Solve, Reflexion (Self-Correction), and Tree of Thoughts.
 *   [**Agent Memory Systems**](architectures/agent-memory-systems.md)  
     *The Context.* Implementing L1 (Short-term), L2 (Vector/Episodic), and L3 (Knowledge Graph) memory.
+*   [**Multi-Modal RAG**](architectures/multi-modal-rag.md)  
+    *The Vision.* Beyond text: ColPali, Multi-Vector Retrieval, and Vision-Language Models (VLMs).
 
 ---
 
@@ -23,8 +25,7 @@ The "Scientist" side of the role: Adapting foundation models.
 
 *   [**Fine-Tuning Strategies**](model-training/fine-tuning-strategies.md)  
     *The Adaptation.* Full FT vs PEFT. Deep dive into LoRA (Rank, Alpha, Modules) and QLoRA.
-*   [**Preference Alignment**](model-training/preference-alignment.md) *(Coming Soon)*  
-    *The Safety.* RLHF (PPO) vs DPO vs ORPO.
+    *The Alignment.* RLHF (PPO) vs DPO vs ORPO.
 
 ---
 
@@ -33,12 +34,22 @@ The "Engineer" side of the role: Serving models efficiently.
 
 *   [**LLM Serving Optimization**](inference-ops/llm-serving-optimization.md)  
     *The Speed.* Quantization (AWQ/GPTQ), Continuous Batching, PagedAttention (vLLM), and Speculative Decoding.
-*   [**GPU Architecture Guide**](inference-ops/gpu-architecture.md) *(Coming Soon)*  
-    *The Hardware.* Memory Bandwidth vs Compute Bound.
+*   [**GPU Architecture Guide**](inference-ops/gpu-architecture.md)  
+    *The Hardware.* H100 vs A100. Memory Bandwidth vs Compute Bound. Multi-GPU strategies (Pipeline vs Tensor Parallelism).
 
 ---
 
-## 🔍 4. System Design & RAG
+## �️ 4. Production & Security Ops (New)
+The "Lead" side of the role: Reliability and Safety.
+
+*   [**Production Observability**](production-ops/observability-and-monitoring.md)  
+    *The Watchtower.* Tracing (LangSmith), Metrics (TTFT, TPS), and Feedback Loops.
+*   [**Generative AI Security**](safety-ops/generative-ai-security.md)  
+    *The Shield.* Guardrails (NeMo, Llama Guard), Prompt Injection Defense, and PII Masking.
+
+---
+
+## �🔍 5. System Design & RAG
 Blueprints for scaling AI applications.
 
 *   [**System Design Interview Blueprint**](system-design/system-design-interview-blueprint.md)
@@ -48,7 +59,7 @@ Blueprints for scaling AI applications.
 
 ---
 
-## 🧠 5. Machine Learning Engineering
+## 🧠 6. Machine Learning Engineering
 Applied patterns for production.
 
 *   [**Applied ML Engineering**](machine-learning/applied-ml-engineering.md)
@@ -57,7 +68,7 @@ Applied patterns for production.
 
 ---
 
-## 💼 6. Interview Strategy
+## 💼 7. Interview Strategy
 *   [**Resume Defense Strategies**](interview-prep/resume-defense-strategies.md)
 
 ---
@@ -66,5 +77,5 @@ Applied patterns for production.
 
 1.  **Level 1: The Basics** - Review `Transformer Deep Dive` and `RAG Pipeline Deep Dive`.
 2.  **Level 2: The Agentic** - Master `Advanced Reasoning` and `Agent Memory`.
-3.  **Level 3: The Optimization** - Understand `Serving Optimization` (vLLM) and `Fine-Tuning` (LoRA).
-4.  **Level 4: The System** - Practice `System Design` using the Blueprint.
+3.  **Level 3: The Optimization** - Understand `Serving Optimization` (vLLM) and `Fine-Tuning`.
+4.  **Level 4: The Production Lead** - Master `Security`, `Observability`, and `GPU Architecture`.
