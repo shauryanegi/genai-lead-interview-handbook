@@ -8,28 +8,28 @@ A technical comparison of the most prominent models in the GenAI ecosystem today
 
 ```mermaid
 mindmap
-  root(("LLM Zoo"))
-    "Dense Models"
-      "Llama-3 (Meta)"
-        "GQA Attention"
-        "15T Token Training"
-      "Gemma-2 (Google)"
-        "Logit Soft-Capping"
-        "Distillation"
-    "MoE Models"
-      "Mixtral (Mistral)"
-        "8x7B Sparse"
-        "SWA Attention"
-      "DeepSeek-V3 (DeepSeek)"
-        "MLA Attention"
-        "Multi-Head Latent Experts"
-    "Multi-Modal"
-      "GPT-4o (OpenAI)"
-        "Unified Stream"
-        "Low Latency Audio"
-      "Claude 3.5 (Anthropic)"
-        "Visual Reasoning"
-        "Artifacts"
+  root((LLM Zoo))
+    Dense_Models[Dense Models]
+      Llama3_Meta["Llama-3 (Meta)"]
+        GQA_Attention[GQA Attention]
+        T15_Training[15T Token Training]
+      Gemma2_Google[Gemma-2 Google]
+        Logit_Capping[Logit Soft-Capping]
+        Distillation[Distillation]
+    MoE_Models[MoE Models]
+      Mixtral_Mistral[Mixtral Mistral]
+        Sparse_8x7B[8x7B Sparse]
+        SWA_Attention[SWA Attention]
+      DeepSeek_V3["DeepSeek-V3"]
+        MLA_Attention[MLA Attention]
+        ML_Experts[Multi-Head Latent Experts]
+    Multi_Modal[Multi-Modal]
+      GPT4o_OpenAI[GPT-4o OpenAI]
+        Unified_Stream[Unified Stream]
+        Audio_Latency[Low Latency Audio]
+      Claude35_Anthropic[Claude 3.5 Anthropic]
+        Visual_Reasoning[Visual Reasoning]
+        Artifacts[Artifacts]
 ```
 
 ---

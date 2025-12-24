@@ -17,9 +17,9 @@ graph LR
     subgraph Sparse ["Sparse MoE (Mixtral)"]
         S_Input["Token"] --> S_Att["Attention"]
         S_Att --> Router{Router}
-        Router -- E1 --> E1["Expert 1"]
-        Router -- E2 --> E2["Expert 2"]
-        Router -- E_Other["...Expert N"]
+        Router -->|"E1"| E1["Expert 1"]
+        Router -->|"E2"| E2["Expert 2"]
+        Router -->|"Other"| E_Other["...Expert N"]
         E1 --> Combiner["Output Combiner"]
         E2 --> Combiner
         Combiner --> S_Out["Output"]
