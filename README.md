@@ -1,64 +1,70 @@
-# GenAI Lead Interview Handbook
+# GenAI Lead Interview Handbook V2 (The "One-Stop Shop")
 
-A comprehensive knowledge base for Machine Learning Lead and Generative AI Architect interviews. This handbook consolidates deep dives into Transformer architectures, RAG systems, agentic workflows, and production engineering.
+A definitive knowledge base for Machine Learning Lead and Generative AI Architect roles. This handbook covers the full stack: from **Training** (LoRA/DPO) to **Architecture** (Memory/Agents) to **Inference Engineering** (vLLM/Quantization).
 
 ---
 
-## 🏗️ Core Architectures
-Insights into the building blocks of modern GenAI.
+## 🏗️ 1. Advanced Architectures
+Insights into the building blocks of modern GenAI systems.
 
 *   [**Transformer Deep Dive**](architectures/transformer-deep-dive.md)  
-    *From Attention to MoE.* Understanding self-attention, KV caching, rotary embeddings (RoPE), and Mixture of Experts.
+    *The Core.* Self-attention, KV caching, RoPE, and MoE.
 *   [**Agent Architecture Patterns**](architectures/agent-architecture-patterns.md)  
-    *Beyond the Chatbot.* Engineering specialized agents via persona scoping, tool restriction, and multi-agent orchestration.
+    *The Basics.* Scoping personas, tools, and orchestration validation.
+*   [**Advanced Reasoning Patterns**](architectures/advanced-reasoning-patterns.md)  
+    *The Brain.* ReAct vs Plan-and-Solve, Reflexion (Self-Correction), and Tree of Thoughts.
+*   [**Agent Memory Systems**](architectures/agent-memory-systems.md)  
+    *The Context.* Implementing L1 (Short-term), L2 (Vector/Episodic), and L3 (Knowledge Graph) memory.
 
 ---
 
-## 🔍 System Design
-Blueprints for scaling AI applications to production.
+## 🧪 2. Model Training & Alignment
+The "Scientist" side of the role: Adapting foundation models.
 
-*   [**System Design Interview Blueprint**](system-design/system-design-interview-blueprint.md)  
-    A structured framework for tackling ML system design questions—from requirements to optimization.
-*   [**Scalable RAG Systems**](system-design/scalable-rag-systems.md)  
-    Architecture for enterprise-grade document retrieval: distributed vector DBs, ingestion pipelines, and latency management.
-
----
-
-## 🛠️ RAG Pipelines
-Practical engineering for accurate and grounded generation.
-
-*   [**RAG Pipeline Deep Dive**](rag-pipelines/rag-pipeline-deep-dive.md)  
-    The 10 stages of RAG: Ingestion, Chunking, Embedding, Vector Search, Re-ranking, and Synthesis.
-*   [**Evaluation Metrics & Frameworks**](rag-pipelines/evaluation-metrics.md)  
-    How to measure what matters: RAGAS (Faithfulness, Relevancy), BERTScore, and handling imbalanced data (PR-AUC).
-*   [**Tool Calling Optimization**](rag-pipelines/tool-calling-optimization.md)  
-    Making agents reliable: Schema engineering, parallel execution, and MCP integration.
+*   [**Fine-Tuning Strategies**](model-training/fine-tuning-strategies.md)  
+    *The Adaptation.* Full FT vs PEFT. Deep dive into LoRA (Rank, Alpha, Modules) and QLoRA.
+*   [**Preference Alignment**](model-training/preference-alignment.md) *(Coming Soon)*  
+    *The Safety.* RLHF (PPO) vs DPO vs ORPO.
 
 ---
 
-## � Machine Learning Engineering
-Applied patterns and coding for the modern ML/AI stack.
+## ⚡ 3. Inference Operations (LLMOps)
+The "Engineer" side of the role: Serving models efficiently.
 
-*   [**Applied ML Engineering**](machine-learning/applied-ml-engineering.md)  
-    Real-world lessons: Handling imbalanced data, metric selection, and production debugging.
-*   [**Human-In-The-Loop (HITL) Framework**](machine-learning/human-in-the-loop-framework.md)  
-    Designing for trust: Confidence routing, manual review queues, and feedback loops for DPO alignment.
-*   [**Coding for ML Engineers**](machine-learning/coding-for-ml-engineers.md)  
-    High-yield algorithms (Sliding Window, HashMaps) and ML-specific implementations (IoU, Attention).
+*   [**LLM Serving Optimization**](inference-ops/llm-serving-optimization.md)  
+    *The Speed.* Quantization (AWQ/GPTQ), Continuous Batching, PagedAttention (vLLM), and Speculative Decoding.
+*   [**GPU Architecture Guide**](inference-ops/gpu-architecture.md) *(Coming Soon)*  
+    *The Hardware.* Memory Bandwidth vs Compute Bound.
 
 ---
 
-## � Interview Strategy
-Preparing for the behavioral and tactical aspects of a Lead role.
+## 🔍 4. System Design & RAG
+Blueprints for scaling AI applications.
 
-*   [**Resume Defense Strategies**](interview-prep/resume-defense-strategies.md)  
-    A playbook for quantifying impact, explaining trade-offs, and defending your technical decisions.
+*   [**System Design Interview Blueprint**](system-design/system-design-interview-blueprint.md)
+*   [**Scalable RAG Systems**](system-design/scalable-rag-systems.md)
+*   [**RAG Pipeline Deep Dive**](rag-pipelines/rag-pipeline-deep-dive.md)
+*   [**Tool Calling Optimization**](rag-pipelines/tool-calling-optimization.md)
 
 ---
 
-## 🚀 Recommended Study Path
-1.  **Architecture Fundamentals**: Start with [Transformer Deep Dive](architectures/transformer-deep-dive.md).
-2.  **Pipeline Engineering**: Master the [RAG Deep Dive](rag-pipelines/rag-pipeline-deep-dive.md).
-3.  **Measurement**: Learn how to evaluate using [Evaluation Metrics](rag-pipelines/evaluation-metrics.md).
-4.  **System Design**: Practice the [System Design Blueprint](system-design/system-design-interview-blueprint.md).
-5.  **Soft Skills**: Review [Resume Defense Strategies](interview-prep/resume-defense-strategies.md).
+## 🧠 5. Machine Learning Engineering
+Applied patterns for production.
+
+*   [**Applied ML Engineering**](machine-learning/applied-ml-engineering.md)
+*   [**Human-In-The-Loop (HITL)**](machine-learning/human-in-the-loop-framework.md)
+*   [**Coding for ML Engineers**](machine-learning/coding-for-ml-engineers.md)
+
+---
+
+## 💼 6. Interview Strategy
+*   [**Resume Defense Strategies**](interview-prep/resume-defense-strategies.md)
+
+---
+
+## 🚀 Recommended Study Path (The "Lead" Track)
+
+1.  **Level 1: The Basics** - Review `Transformer Deep Dive` and `RAG Pipeline Deep Dive`.
+2.  **Level 2: The Agentic** - Master `Advanced Reasoning` and `Agent Memory`.
+3.  **Level 3: The Optimization** - Understand `Serving Optimization` (vLLM) and `Fine-Tuning` (LoRA).
+4.  **Level 4: The System** - Practice `System Design` using the Blueprint.
