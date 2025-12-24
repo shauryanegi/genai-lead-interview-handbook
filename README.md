@@ -55,6 +55,9 @@ Blueprints for scaling AI applications.
 *   [**System Design Interview Blueprint**](system-design/system-design-interview-blueprint.md)
 *   [**Scalable RAG Systems**](system-design/scalable-rag-systems.md)
 *   [**RAG Pipeline Deep Dive**](rag-pipelines/rag-pipeline-deep-dive.md)
+*   [**Vector Indexing Algorithms**](rag-pipelines/vector-indexing-deep-dive.md)
+    *   *The Engine.* HNSW (Speed) vs IVF (Memory) vs Quantization (PQ/SQ).
+    *   *Decision Matrix.* When to use which for 10M vs 100M vectors.
 *   [**Tool Calling Optimization**](rag-pipelines/tool-calling-optimization.md)
 
 ---
