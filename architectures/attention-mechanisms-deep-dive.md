@@ -82,12 +82,12 @@ MLA represents the "compression" frontier. Instead of sharing heads, it compress
 
 ```mermaid
 graph LR
-    Input[Input Vector] --> Encoder[Down-Projection Matrix]
-    Encoder --> Latent[Latent Vector (Compressed)]
-    Latent --> DecoderK[K Up-Projection]
-    Latent --> DecoderV[V Up-Projection]
-    DecoderK --> Keys[Full Resolution Keys]
-    DecoderV --> Values[Full Resolution Values]
+    Input["Input Vector"] --> Encoder["Down-Projection Matrix"]
+    Encoder --> Latent["Latent Vector (Compressed)"]
+    Latent --> DecoderK["K Up-Projection"]
+    Latent --> DecoderV["V Up-Projection"]
+    DecoderK --> Keys["Full Resolution Keys"]
+    DecoderV --> Values["Full Resolution Values"]
 ```
 
 *   **Mechanism**: Low-rank compression of the KV Cache. Instead of storing full $K$ and $V$, it stores a **compressed latent vector** ($d=512$).

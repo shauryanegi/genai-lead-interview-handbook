@@ -9,20 +9,20 @@ MoE is the dominant architecture for ultra-large models (GPT-4, Mixtral, DeepSee
 ```mermaid
 graph LR
     subgraph Dense ["Dense Model (Llama-3)"]
-        D_Input[Token] --> D_Att[Attention]
-        D_Att --> D_FFN[FFN Layer]
-        D_FFN --> D_Out[Output]
+        D_Input["Token"] --> D_Att["Attention"]
+        D_Att --> D_FFN["FFN Layer"]
+        D_FFN --> D_Out["Output"]
     end
 
     subgraph Sparse ["Sparse MoE (Mixtral)"]
-        S_Input[Token] --> S_Att[Attention]
+        S_Input["Token"] --> S_Att["Attention"]
         S_Att --> Router{Router}
-        Router -- E1 --> E1[Expert 1]
-        Router -- E2 --> E2[Expert 2]
-        Router -- E_Other[...Expert N]
-        E1 --> Combiner[Output Combiner]
+        Router -- E1 --> E1["Expert 1"]
+        Router -- E2 --> E2["Expert 2"]
+        Router -- E_Other["...Expert N"]
+        E1 --> Combiner["Output Combiner"]
         E2 --> Combiner
-        Combiner --> S_Out[Output]
+        Combiner --> S_Out["Output"]
     end
 ```
 
@@ -49,25 +49,25 @@ DeepSeek-V3 introduced a more efficient expert layout to solve the "Knowledge In
 
 ```mermaid
 graph TD
-    Input[Token Hidden State] --> Router{Router}
+    Input["Token Hidden State"] --> Router{Router}
     
     subgraph Routed ["Routed Experts (Specialized)"]
-        RE1[Expert 1]
-        RE2[Expert 2]
-        RE3[Expert 3]
-        RE4[...]
+        RE1["Expert 1"]
+        RE2["Expert 2"]
+        RE3["Expert 3"]
+        RE4["..."]
     end
     
-    subgraph Shared ["Shared Experts (Commmon)"]
-        SE1[Base Knowledge Expert]
+    subgraph Shared ["Shared Experts (Common)"]
+        SE1["Base Knowledge Expert"]
     end
 
     Router -- Top-K --> Routed
     Input --> Shared
     
-    Routed --> Sum[Weighted Sum]
+    Routed --> Sum["Weighted Sum"]
     Shared --> Sum
-    Sum --> Output[Next Layer]
+    Sum --> Output["Next Layer"]
 ```
 
 ---
