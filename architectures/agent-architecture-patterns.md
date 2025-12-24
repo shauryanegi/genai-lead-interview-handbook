@@ -1,9 +1,9 @@
 # How to Engineer Specialized Agents
 ## "The Recipe" for Multi-Agent Systems
 
-Designing specialized agents (like a **Financial Analyst** vs. **Risk Analyst**) isn't magic—it's about strict scoping of **Context**, **Instructions**, and **Tools**.
+Designing specialized agents (like a **Financial Analyst** vs. **Risk Analyst**) involves strict scoping of **Context**, **Instructions**, and **Tools**.
 
-Here is the blueprint for how you "make" these agents, based on your `multi_agent.py` code.
+Here is the blueprint for engineering these agents in multi-agent workflows.
 
 ---
 
@@ -14,7 +14,7 @@ To make an agent feel "real" and distinct, you need to configure three layers:
 ### 1. The Persona (System Prompt) 🧠
 This is the most obvious part. You give the LLM a specific role and set of constraints.
 
-> **Your Code Example (`resources/multi_agent.py`)**:
+> **Example Implementation**:
 > ```python
 > AgentRole.RISK_ANALYST: """You are an expert Risk Analyst.
 > Identify: financial, operational, market risks. Provide SWOT analysis.
@@ -51,9 +51,9 @@ How do they talk?
 
 ---
 
-## 🔍 Deep Dive: Your Current Implementation
+## 🔍 Deep Dive: Implementation Patterns
 
-Your `resources/multi_agent.py` uses the **Parallel Specialist** pattern.
+Common multi-agent systems use the **Parallel Specialist** pattern to manage complexity.
 
 ### How it works today:
 1.  **Orchestrator** defines tasks:
@@ -62,15 +62,15 @@ Your `resources/multi_agent.py` uses the **Parallel Specialist** pattern.
 2.  **Parallel Execution**: It uses `asyncio.gather` to run all 3 prompts simultaneously.
 3.  **Synthesis**: The Orchestrator takes the 3 text blobs and writes the final Executive Summary.
 
-### 🚀 How to "Sell" this in the Interview
-Even if simple, this is a powerful pattern.
+### 🚀 How to Articulate the Value
+Specialization is a powerful pattern to highlight.
 
-**Say this:**
-> "I built a **specialized agent swarm** to mimic a real credit investment committee.
-> 1.  I have a **Financial Agent** with a system prompt strict on quantitative accuracy ('Never hallucinate numbers').
-> 2.  I have a **Risk Agent** instructed to look for qualitative red flags.
-> 3.  They run in parallel for speed, and a **Lead Agent** synthesizes their conflicting views into a Recommendation.
-> This prevents the 'generalist' LLM problem where it tries to be average at everything. Specialization = Higher Quality."
+**Lead Perspective:**
+> "By building a **specialized agent swarm**, we mimic an expert committee.
+> 1.  A **Financial Agent** focuses strictly on quantitative accuracy and data extraction.
+> 2.  A **Risk Agent** focuses on qualitative red flags and SWOT analysis.
+> 3.  A **Lead Agent** synthesizes these views into a final recommendation.
+> This avoid the 'generalist' problem where a single prompt tries to handle too many conflicting goals, resulting in higher quality and more focused outputs."
 
 ---
 

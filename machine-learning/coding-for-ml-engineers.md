@@ -55,8 +55,8 @@ def maxSum(nums, k):
 
 ---
 
-## 🧠 ML-Specific "Coding" (Don't fail these!)
-Sravanthi or Mayank might ask you to implement a metric or layer from scratch.
+## 🧠 ML-Specific "Coding" (Core Knowledge)
+Interviewers often ask candidates to implement a metric or layer from scratch to test deep understanding.
 
 ### 1. Intersection over Union (IoU) - Object Detection 
 ```python

@@ -1,9 +1,8 @@
 # Evaluation Techniques Deep Dive
-## The Complete Guide (Mayank's Focus Area #1b)
+## The Complete Handbook
 
-Mayank said: *"Evaluation techniques around various use-cases."*
+This document covers the essential evaluation techniques for modern ML systems, ranging from LLM generation metrics to specialized RAG assessment frameworks.
 
-This document covers:
 1.  **LLM Generation Evaluation** (BLEU, ROUGE, BERTScore, Perplexity)
 2.  **RAG Evaluation** (RAGAS Framework)
 3.  **Classification/Extraction Evaluation** (Precision, Recall, F1)
@@ -66,8 +65,8 @@ BLEU = BP × exp(Σ w_n × log(precision_n))
 3.  Aggregate (greedy matching) for Precision, Recall, F1.
 
 **🎯 When to use**: When you want to capture paraphrases.
-**Your Credit Memo Link**:
-> "I use BERTScore to evaluate the quality of my generated Executive Summary against human-written summaries. It handles paraphrasing better than ROUGE."
+**Example Scenario**:
+> "BERTScore is ideal for evaluating the quality of generated Executive Summaries against human-written summaries. It handles paraphrasing significantly better than ROUGE, which can be overly sensitive to exact wording."
 
 ---
 
@@ -82,8 +81,8 @@ RAGAS (Retrieval Augmented Generation Assessment) provides 4 key metrics:
 
 **Score**: 0-1. Higher is better.
 
-**🎯 Your Credit Memo Link**:
-> "I track Faithfulness to catch 'hallucinations'. If my model says 'Revenue is $10M' but the retrieved chunks only mention '$8M', Faithfulness flags it."
+**Example Scenario**:
+> "Tracking Faithfulness is critical for catching 'hallucinations'. If a model claims 'Revenue is $10M' but the retrieved source context only mentions '$8M', the Faithfulness score will flag the discrepancy."
 
 ---
 
@@ -120,7 +119,7 @@ RAGAS (Retrieval Augmented Generation Assessment) provides 4 key metrics:
 | Context Precision | Retrieval Quality | Too much irrelevant noise |
 | Context Recall | Retrieval Coverage | Missed important docs |
 
-**🎯 Interview Answer**: "I implemented a RAGAS pipeline in my Credit Memo project. Every week, I sample 50 queries and compute these 4 metrics. If **Faithfulness** drops below 0.85, I trigger a prompt tuning review."
+**Example Answer**: "I implement a RAGAS pipeline for continuous monitoring. Every week, I sample queries and compute these 4 metrics. If **Faithfulness** drops below a defined threshold (e.g., 0.85), I trigger a manual review of the retrieved context and prompts."
 
 ---
 
@@ -134,8 +133,8 @@ RAGAS (Retrieval Augmented Generation Assessment) provides 4 key metrics:
 | **Recall** | TP / (TP + FN) | Of what was true, how much did I find? |
 | **F1** | 2 * (P * R) / (P + R) | Harmonic mean (balanced) |
 
-**🎯 Security Domain (CloudSEK)**:
-> "For Threat Detection, **Recall is more important**. A missed threat (FN) is worse than a false alarm (FP). But too many FPs cause 'Alert Fatigue'. I use **F2-Score** (weights Recall 2x) as my primary metric."
+**General Principle**:
+> "In high-stakes domains (like security or finance), **Recall is often more important**. A missed threat or risk (False Negative) is usually worse than a false alarm (False Positive). I focus on the **F2-Score** (which weights Recall 2x) as a primary metric while monitoring for 'Alert Fatigue'."
 
 ---
 
@@ -146,8 +145,8 @@ RAGAS (Retrieval Augmented Generation Assessment) provides 4 key metrics:
 | **ROC-AUC** | Balanced datasets | Can be misleading if classes are imbalanced |
 | **PR-AUC** | Imbalanced datasets (like Threat Detection) | Focuses on positive class performance |
 
-**🎯 Your Credit Memo Link**:
-> "When I evaluate my Entity Extraction model (finding company names, dates, amounts), I use **PR-AUC** because 90% of tokens are 'O' (no entity). ROC-AUC would be misleadingly high."
+**Example Scenario**:
+> "When evaluating an Entity Extraction model for dense documents (e.g., extracting company names, dates, amounts), **PR-AUC** is preferred because the majority of tokens are 'Background'. ROC-AUC would be misleadingly high."
 
 ---
 
@@ -160,8 +159,8 @@ RAGAS (Retrieval Augmented Generation Assessment) provides 4 key metrics:
 *   **Factual Correctness**: 1-5 (Are the facts accurate?)
 *   **Usefulness**: 1-5 (Does this answer help the user?)
 
-**🎯 Your Credit Memo Link**:
-> "For my Human-in-the-Loop evaluation, I showed generated memos to 3 credit analysts. They rated Factual Correctness using a 5-point scale. We compute Inter-Rater Agreement (Cohen's Kappa) to ensure consistency."
+**Example Scenario**:
+> "For Human-in-the-Loop evaluation, focus on showing generated reports to domain experts. They should rate Factual Correctness on a scale (e.g., 1-5). Computing Inter-Rater Agreement (Cohen's Kappa) ensures consistency across reviewers."
 
 ---
 
