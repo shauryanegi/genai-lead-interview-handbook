@@ -17,6 +17,10 @@ Insights into the building blocks of modern GenAI systems.
     *The Comparison.* Llama-3 vs. DeepSeek-V3 vs. GPT-4o vs. Claude 3.5.
 *   [**Agent Architecture Patterns**](architectures/agent-architecture-patterns.md)  
     *The Basics.* Scoping personas, tools, and orchestration validation.
+*   [**Model Context Protocol (MCP)**](architectures/mcp-model-context-protocol.md)
+    *The Universal Interface.* USB-C for AI: connecting servers, clients, and hosts.
+*   [**Agent-to-Agent (A2A) & Multimodal**](architectures/agent-to-agent-communication.md)
+    *The Interop.* Hand-offs, orchestration, and native audio-to-audio (GPT-4o).
 *   [**Advanced Reasoning Patterns**](architectures/advanced-reasoning-patterns.md)  
     *The Brain.* ReAct vs Plan-and-Solve, Reflexion (Self-Correction), and Tree of Thoughts.
 *   [**Agent Memory Systems**](architectures/agent-memory-systems.md)  
