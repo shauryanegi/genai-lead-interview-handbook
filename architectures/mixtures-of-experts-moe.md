@@ -4,63 +4,87 @@ MoE is the dominant architecture for ultra-large models (GPT-4, Mixtral, DeepSee
 
 ---
 
-## 1. Dense vs. Sparse Models
+## 1. Dense vs. Sparse (Visualized)
 
-*   **Dense Model**: Every token activates every parameter in the model (e.g., Llama-3 70B uses 70B params per token).
-*   **Sparse MoE**: A token only activates a small subset of the total parameters (e.g., Mixtral 8x7B has 47B total params, but only 13B are active per token).
+```mermaid
+graph LR
+    subgraph Dense ["Dense Model (Llama-3)"]
+        D_Input[Token] --> D_Att[Attention]
+        D_Att --> D_FFN[FFN Layer]
+        D_FFN --> D_Out[Output]
+    end
 
-**The Benefit**: You get the "Knowledge Capacity" of a massive model with the "Inference Speed" of a much smaller one.
+    subgraph Sparse ["Sparse MoE (Mixtral)"]
+        S_Input[Token] --> S_Att[Attention]
+        S_Att --> Router{Router}
+        Router -- E1 --> E1[Expert 1]
+        Router -- E2 --> E2[Expert 2]
+        Router -- E_Other[...Expert N]
+        E1 --> Combiner[Output Combiner]
+        E2 --> Combiner
+        Combiner --> S_Out[Output]
+    end
+```
+
+*   **Dense**: Every token activates every parameter.
+*   **Sparse MoE**: A token only activates a small subset ($K$ experts).
 
 ---
 
-## 2. The Core Components
+## 2. Core Components & Routing
 
 ### 2.1 The Router (Gating Network)
-*   **Mechanism**: For each token, the Router (a small linear layer) predicts which $K$ experts are best suited to process it.
-*   **Top-K Routing**: Typically $k=2$. A token is sent to the top 2 experts, and their outputs are weighted-summed.
+The Router is the "brain" of the layer. It calculates a probability distribution over all experts.
+
+$$ G(x) = \text{Softmax}(\text{KeepTopK}(H(x), k)) $$
 
 ### 2.2 Expert Layers (FFNs)
-*   Instead of one giant Feed-Forward Network (FFN), you have $N$ independent FFN "Experts".
-*   Attention layers are usually shared across all experts (Dense Attention).
+Each expert is typically an independent Feed-Forward Network.
 
 ---
 
-## 3. High-Level Challenges (Interview Depth)
+## 3. DeepSeekMoE: The Multi-Head Latent Expert
 
-### 3.1 Expert Specialization
-*   **Myth**: One expert learns "French" and another learns "Physics".
-*   **Reality**: Specialization is more syntactic/token-level than conceptual. One expert might handle "Prepositional phrases" while another handles "Numerical reasoning".
+DeepSeek-V3 introduced a more efficient expert layout to solve the "Knowledge Interference" problem in standard MoE.
 
-### 3.2 Routing Collapse & Load Balancing
-*   **Problem**: The Router is lazy. It might find 2 "Good" experts and send *every* token to them. The other 6 experts never learn anything and die (Gradient starvation).
-*   **Solution**: **Auxiliary Loss**. We add a penalty to the loss function if the token distribution across experts is unbalanced.
+```mermaid
+graph TD
+    Input[Token Hidden State] --> Router{Router}
+    
+    subgraph Routed ["Routed Experts (Specialized)"]
+        RE1[Expert 1]
+        RE2[Expert 2]
+        RE3[Expert 3]
+        RE4[...]
+    end
+    
+    subgraph Shared ["Shared Experts (Commmon)"]
+        SE1[Base Knowledge Expert]
+    end
 
-### 3.3 Expert Capacity & Dropping
-*   In distributed training, we set a "Capacity Factor". If one expert is overloaded (too many tokens assigned), extra tokens are **dropped** (not processed by that layer) to prevent hardware idle time.
-
----
-
-## 4. DeepSeekMoE: The Multi-Head Latent Expert
-*DeepSeek-V3 Innovation*
-
-DeepSeek improved MoE in two massive ways:
-1.  **Fine-Grained Experts**: Instead of 8 large experts, use 64+ smaller ones. This allows for much more precise routing.
-2.  **Shared Experts**: some experts are **always active** for every token. These capture "Common Knowledge", while the routed experts capture "Specialized Knowledge". This fixes many stability issues in standard MoE.
-
----
-
-## 5. MoE Training vs. Inference
-
-| Stage | Challenge | Solution |
-|-------|-----------|----------|
-| **Training** | VRAM overhead. | **Expert Parallelism**: Different GPUs store different experts. |
-| **Inference** | High VRAM requirement (Model doesn't fit). | **Quantization** or **Offloading**. Even if only 13B params are active, all 47B must be in memory. |
+    Router -- Top-K --> Routed
+    Input --> Shared
+    
+    Routed --> Sum[Weighted Sum]
+    Shared --> Sum
+    Sum --> Output[Next Layer]
+```
 
 ---
 
-## 6. Interview Question
+## 4. Advanced Q&A
 
-### Q: "If a MoE model only uses 10B parameters per token, why can't I run it on a 16GB GPU if the total params are 50B?"
-> **Answer**: "Because MoE is **Computationally Sparse** but **Memory Dense**. 
-> 
-> Even though a token only activates 10B parameters for math, all 50B parameters must reside in VRAM (or be swapped very fast). The router might send the next token in the sequence to *any* of the 50B parameters. Unless you have enough VRAM to hold the entire expert 'library', you will hit a massive 'IO bottleneck' trying to swap experts from Disk/CPU to GPU on every token generation. This is why MoE models are great for throughput on large clusters but hard to run on consumer hardware."
+### Q1: "What is 'Routing Collapse' and how do you fix it?"
+> **Answer**: Routing collapse occurs when the router disproportionately favors a few experts, causing them to receive all the training gradients while others stay "dead". We fix this using an **Auxiliary Balancing Loss** ($L_{aux}$) which penalizes the model if token distribution across experts isn't uniform.
+
+### Q2: "Why is MoE training so memory-intensive?"
+> **Answer**: Because even if only 2 experts are active per token, all 8 (or 64) experts must be stored in GPU memory. This requires **Expert Parallelism (EP)**, where different GPUs in a cluster host different experts. The communication overhead of sending tokens between GPUs (all-to-all) becomes the bottleneck.
+
+### Q3: "How does 'Expert Capacity' affect inference?"
+> **Answer**: In high-throughput serving, we limit how many tokens a single expert can handle to prevent hardware idle time. If 1000 tokens want Expert 1 but it only has capacity for 500, the remaining 500 are "dropped" (passed through without FFN processing) or sent to a second-best expert. This is the **Capacity Factor**.
+
+### Q4: "Is an 8x7B MoE model exactly the same as a 56B Dense model?"
+> **Answer**: No. An 8x7B model (like Mixtral) has ~47B total parameters because the **Attention layers are shared**. Only the FFN layers are multiplied. This is a crucial distinction: MoE scales the *computationally expensive* parts (FFN) while keeping the *inter-token dependency* parts (Attention) efficient.
+
+### Q5: "What is the 'Fine-Grained Experts' strategy in DeepSeek?"
+> **Answer**: Standard MoE (Mixtral) uses 8 large experts. DeepSeek uses 64+ tiny experts. This allows the model to be much more surgical. Instead of a whole "Math Expert", it might have 10 tiny experts for different types of sub-equations, leading to higher accuracy for the same total active parameter count.

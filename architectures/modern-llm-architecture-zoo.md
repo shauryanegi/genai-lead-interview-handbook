@@ -4,74 +4,86 @@ A technical comparison of the most prominent models in the GenAI ecosystem today
 
 ---
 
+## 🚀 The State of the Art (Visualized)
+
+```mermaid
+mindmap
+  root((LLM Zoo))
+    Dense Models
+      Llama-3 (Meta)
+        GQA Attention
+        15T Token Training
+      Gemma-2 (Google)
+        Logit Soft-Capping
+        Distillation
+    MoE Models
+      Mixtral (Mistral)
+        8x7B Sparse
+        SWA Attention
+      DeepSeek-V3 (DeepSeek)
+        MLA Attention
+        Multi-Head Latent Experts
+    Multi-Modal
+      GPT-4o (OpenAI)
+        Unified Stream
+        Low Latency Audio
+      Claude 3.5 (Anthropic)
+        Visual Reasoning
+        Artifacts
+```
+
+---
+
 ## 1. Llama-3 (Meta)
 *The Open Standard*
 
-*   **Architecture**: Dense Transformer (not MoE).
+*   **Architecture**: Dense Transformer.
 *   **Attention**: **GQA** (Grouped Query Attention) with 8 KV heads.
-*   **Tokenizer**: 128K Tiktoken-based (very efficient for code/non-English).
-*   **RoPE**: Uses high base frequency ($500k$) for expanded context handling.
-*   **Training**: Massive scale. 15 Trillion tokens for the 8B and 70B models.
-*   **Key Insight**: Llama-3 proves that "Over-training" small dense models (8B) leads to performance that beats previously much larger models (Llama-2 70B).
+*   **Key Insight**: Llama-3 proved that **over-training** (15T tokens for 8B params) creates a model that outperforms previous models 5-10x its size.
 
 ---
 
 ## 2. DeepSeek-V3 / R1 (DeepSeek)
 *The Efficiency Frontier*
 
-*   **Architecture**: Multi-headed Latent Attention (**MLA**) + **DeepSeekMoE**.
-*   **MLA**: Compresses KV cache into a latent space, allowing for massive context (128K) with minimal memory growth.
-*   **MoE**: Fine-grained experts (64+ experts) with **Shared Experts** (always active for common knowledge).
-*   **Training**: Uses Multi-Token Prediction (MTP) to speed up convergence.
-*   **Key Insight**: DeepSeek-V3 is the most technically efficient model per-FLOP, achieving GPT-4o performance with significantly lower training and inference costs.
+*   **Architecture**: **MLA** (Multi-head Latent Attention) + **Multi-head Latent Experts**.
+*   **Concept**: Instead of dense matrices, every component uses low-rank compression.
+*   **Key Insight**: DeepSeek-V3 is the first model to reach GPT-4o level performance while being significantly cheaper to train and serve, thanks to its hardware-aware sparse architecture.
 
 ---
 
 ## 3. Claude 3.5 Sonnet (Anthropic)
-*The "Reasoning" Specialist*
+*The Agent Specialist*
 
-*   **Architecture**: Likely a large-scale MoE (details are proprietary but suspected).
-*   **Key Feature**: Exceptional at **Long-Context Artifacts** and **Visual Reasoning**.
-*   **Alignment**: Heavy focus on Constitutional AI and strictly formatted outputs.
-*   **Key Insight**: Sonnet 3.5 is the current "State-of-the-Art" for coding and agentic workflows due to its precision and instruction-following.
+*   **Key Feature**: Exceptional **instruction-following** and **coding precision**.
+*   **Alignment**: Uses Constitutional AI (heavy internal reinforcement learning) to ensure safety and neutrality.
 
 ---
 
-## 4. GPT-4o (OpenAI)
-*The Omnimodal Model*
+## 4. Modern Architecture Cheat Sheet
 
-*   **Architecture**: Native Multimodal.
-*   **Innovation**: Instead of separate encoders for Audio/Vision/Text joined by a bridge, it is trained on all modalities in a **single transformer stream**.
-*   **Interaction**: Very low latency (232ms for audio-to-audio) due to the unified architecture.
-*   **Key Insight**: GPT-4o marks the transition from "Text-First" LLMs to "Native-Multimodal" LLMs.
-
----
-
-## 5. Mistral / Mixtral (Mistral AI)
-*The MoE Pioneers*
-
-*   **Mixtral 8x7B**: The first highly successful open MoE. Uses 2 active experts per token.
-*   **SWA**: Mistral models popularized **Sliding Window Attention** to handle 32k+ context on smaller GPUs.
-*   **Key Insight**: Mistral focuses on "Density per Byte", making them the favorites for edge deployment.
+| Feature | Llama-3 | DeepSeek-V3 | Mixtral |
+|---------|---------|-------------|---------|
+| **Core** | Dense | MoE | MoE |
+| **Attention** | GQA | MLA | SWA |
+| **Active Params** | 70B | ~37B | ~13B |
+| **Context** | 128K | 128K | 32K |
 
 ---
 
-## 💡 Summary Comparison Table
+## 5. Advanced Q&A
 
-| Model | Type | Attention | Context | Best For |
-|-------|------|-----------|---------|----------|
-| **Llama-3** | Dense | GQA | 8k/128k | General Purpose / Local |
-| **DeepSeek-V3** | MoE | MLA | 128k | Extreme Throughput / Value |
-| **Claude 3.5** | Suspected MoE | Proprietary | 200k | Coding / Reasoning |
-| **GPT-4o** | Omnimodal | Proprietary | 128k | Voice / Interactive |
+### Q1: "Why would a company use a Dense model (Llama-3) instead of a more efficient MoE (DeepSeek)?"
+> **Answer**: Reliability and Hardware. Dense models are more "stable"—they don't suffer from routing errors or expert imbalance. More importantly, they occupy less total VRAM. A 70B dense model fits in 140GB, whereas a 670B MoE (like DeepSeek) might only use 30B params for math but still requires massive VRAM to store the expert library.
 
----
+### Q2: "What is 'Multi-Token Prediction' (MTP) in DeepSeek-V3?"
+> **Answer**: Standard LLMs predict 1 token at a time. MTP predicts the next $N$ tokens in parallel. This is used during training to force the model to look further ahead and understand global sequence structure, leading to better planning and reasoning capabilities.
 
-## 7. Interview Question
+### Q3: "What is 'Logit Soft-Capping' in Gemma-2?"
+> **Answer**: It's a technique to keep attention scores from becoming too large (exploding). It caps the scores within a range during training using a `tanh` function. This results in more stable training and better generalization for smaller models.
 
-### Q: "Why did DeepSeek choose MLA over GQA?"
-> **Answer**: "DeepSeek's goal was maximizing **Inference Throughput**. 
-> 
-> GQA (Llama-3) reduces the KV cache size by a fixed factor (ratio of Q-heads to KV-heads). However, for very long contexts (128k+), even GQA's cache becomes a bottleneck for batch size. 
-> 
-> **MLA** (Multi-head Latent Attention) goes further. It uses low-rank latent compression. It compresses the Keys and Values into a shared latent vector ($d=512$) which is then up-projected at inference. This results in a KV cache that is **4-6x smaller than GQA**, allowing DeepSeek to run massive batches on the same hardware, which is why their API is so much cheaper than competitors."
+### Q4: "How does 'Native Multimodality' differ from 'Bridged Multimodality'?"
+> **Answer**: In **Bridged** (e.g., LLaVA), you have a separate Vision Encoder and an LLM. You "glue" them together with a projection layer. In **Native** (e.g., GPT-4o), the images, audio, and text are all converted to the same token space and processed by the **same transformer layers**. This allows for much higher nuance and cross-modal reasoning.
+
+### Q5: "Which architecture is best for a 'Tool-Use' Agent?"
+> **Answer**: Currently, models with **strong instruction-following alignment** and **low-latency GQA/MLA** are best. Claude 3.5 Sonnet and DeepSeek-V3 are the favorites because their attention mechanisms allow for massive "System Prompts" (filled with tool definitions) without slowing down the initial response (TTFT).
