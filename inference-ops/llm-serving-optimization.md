@@ -38,9 +38,15 @@ In autoregressive generation, we re-calculate Attention for previous tokens ever
 *   **New Problem**: The Cache grows. We must pre-allocate contiguous RAM. This leads to **Fragmentation** (wasted memory).
 
 ### The PagedAttention Fix (vLLM)
-*   **Insight**: Inspired by OS Virtual Memory paging.
-*   **Mechanism**: Break the KV Cache into non-contiguous "blocks".
-*   **Result**: Zero external fragmentation. Extremely high batch sizes.
+*   **Insight**: Inspired by OS Virtual Memory paging. In OS, paging prevents external fragmentation.
+*   **Mechanism**: 
+    1.  Divide the KV Cache into physical **blocks**.
+    2.  Each block contains the Key and Value vectors for a fixed number of tokens (e.g., 16).
+    3.  A **Block Table** maps logical token indices to physical block addresses.
+    4.  As tokens generate, we only fetch the necessary blocks.
+*   **Result**: 
+    *   **Zero External Fragmentation**: We don't need contiguous memory.
+    *   **Memory Sharing**: For "Copy-on-write" or parallel sampling, multiple sequences can share the same physical blocks for the shared prompt (massive memory saving for Multi-agent apps).
 *   **Impact**: Increases throughput by 2-4x over HuggingFace `generate()`.
 
 ---

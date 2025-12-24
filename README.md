@@ -9,6 +9,12 @@ Insights into the building blocks of modern GenAI systems.
 
 *   [**Transformer Deep Dive**](architectures/transformer-deep-dive.md)  
     *The Core.* Self-attention, KV caching, RoPE, and MoE.
+*   [**Attention Mechanisms Deep Dive**](architectures/attention-mechanisms-deep-dive.md)
+    *The Efficiency.* MHA, MQA, GQA, MLA (DeepSeek), and SWA (Sliding Window).
+*   [**Mixture of Experts (MoE)**](architectures/mixtures-of-experts-moe.md)
+    *The Sparse Scaling.* Routing, Load Balancing, and DeepSeekMoE innovation.
+*   [**Modern LLM Architecture Zoo**](architectures/modern-llm-architecture-zoo.md)
+    *The Comparison.* Llama-3 vs. DeepSeek-V3 vs. GPT-4o vs. Claude 3.5.
 *   [**Agent Architecture Patterns**](architectures/agent-architecture-patterns.md)  
     *The Basics.* Scoping personas, tools, and orchestration validation.
 *   [**Advanced Reasoning Patterns**](architectures/advanced-reasoning-patterns.md)  
