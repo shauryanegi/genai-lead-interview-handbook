@@ -21,6 +21,8 @@ Insights into the building blocks of modern GenAI systems.
     *The Universal Interface.* USB-C for AI: connecting servers, clients, and hosts.
 *   [**Agent-to-Agent (A2A) & Multimodal**](architectures/agent-to-agent-communication.md)
     *The Interop.* Hand-offs, orchestration, and native audio-to-audio (GPT-4o).
+*   [**Inference-Time Reasoning (o1)**](architectures/inference-time-reasoning.md)
+    *The Thought Core.* PRMs, CoVe, and MCTS: beyond next-token prediction.
 *   [**Advanced Reasoning Patterns**](architectures/advanced-reasoning-patterns.md)  
     *The Brain.* ReAct vs Plan-and-Solve, Reflexion (Self-Correction), and Tree of Thoughts.
 *   [**Agent Memory Systems**](architectures/agent-memory-systems.md)  
@@ -36,6 +38,8 @@ The "Scientist" side of the role: Adapting foundation models.
 *   [**Fine-Tuning Strategies**](model-training/fine-tuning-strategies.md)  
     *The Adaptation.* Full FT vs PEFT. Deep dive into LoRA (Rank, Alpha, Modules) and QLoRA.
     *The Alignment.* RLHF (PPO) vs DPO vs ORPO.
+*   [**Data Engineering for LLMs**](model-training/data-engineering-for-llms.md)
+    *The Foundation.* Synthetic Data (SDG), Decontamination, and Data Mixtures.
 
 ---
 
@@ -58,6 +62,8 @@ The "Lead" side of the role: Reliability and Safety.
     *The Watchtower.* Tracing (LangSmith), Metrics (TTFT, TPS), and Feedback Loops.
 *   [**Generative AI Security**](safety-ops/generative-ai-security.md)  
     *The Shield.* Guardrails (NeMo, Llama Guard), Prompt Injection Defense, and PII Masking.
+*   [**AI Economics & Cost Engineering**](production-ops/ai-economics-and-cost-engineering.md)
+    *The Lead's P&L.* Model Cascading, Token Budgeting, and Selective Routing ROI.
 
 ---
 
